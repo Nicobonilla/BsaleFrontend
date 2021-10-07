@@ -1,0 +1,18 @@
+@charset "ISO-8859-1";
+.hero {
+  background-image: url("../img/hero.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 28rem;
+  background-size: cover;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.hero .contenido-hero {
+  padding: 0.5rem;
+  margin-top: 3rem;
+  flex: 1;
+}	
