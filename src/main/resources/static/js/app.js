@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 // EVENTO DEL BOTON COMPRAR DENTRO DE LAS CARDS
-slider.addEventListener('click', e => {
+cards.addEventListener('click', e => {
   addCarrito(e)
 })
 
