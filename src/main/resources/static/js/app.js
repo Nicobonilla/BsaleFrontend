@@ -12,6 +12,7 @@ const templateCarrito = document.getElementById('template-carrito').content
 const fragment = document.createDocumentFragment()
 let products = {}
 let categoryCards = {}
+const urlProduct = 'https://bsaleback.herokuapp.com/api/v1/product';
 
 // CARGAMOS DATOS INICIALES
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,7 +51,7 @@ const searchProduct = async () => {
   try {
     const searchProduct = await fetch(urlProduct+'/search?name='+searchContent)
     products = await searchProduct.json()
-    pintarCards(products)
+    printCards(products)
   } catch (error) {
       console.log(error)
   }
@@ -84,19 +85,18 @@ const getId = (e) => {
 }
 
 // OBTENEMOS EL JSON DE LOS PRODUCTOS CORRESPONDIENTES A LA CATEGORIA Y LA MOSTRAMOS
-const urlProduct = 'http://localhost:9002/api/v1/product';
 const fetchProduct = async () => {
     try {
           const fetchProduct = await fetch(urlProduct+'/buscar?category='+clickId)
           products = await fetchProduct.json()
-          pintarCards(products)
+          printCards(products)
     } catch (error) {
           console.log(error)
     }
 }
 
 //FUNCION PARA MOSTRAR LOS CARDS DE LOS PRODUCTOS
-const pintarCards = products => {
+const printCards = products => {
   products.forEach( producto => {
     templateCard.querySelector('h5').textContent = producto.name
     templateCard.querySelector('p').textContent = producto.price
@@ -130,11 +130,11 @@ const setCarrito = objeto => {
   }
 
   carrito[producto.id] = {...producto}
-  pintarCarrito()
+  printCarrito()
 }
 
 // FUNCION QUE AGREGA PRODUCTOS A LA LISTA DE PRODUCTOS DEL CARRITO
-const pintarCarrito = () => {
+const printCarrito = () => {
   items.innerHTML = ''
   Object.values(carrito).forEach(producto => {
     templateCarrito.querySelector('th').textContent = producto.id
@@ -147,12 +147,12 @@ const pintarCarrito = () => {
     fragment.appendChild(clone)
   })
   items.appendChild(fragment)
-  pintarFooter()
+  printFooter()
   localStorage.setItem('carrito', JSON.stringify(carrito))
 }
  
 // FUNCION PARA IMPRIMIR EL FOOT DEL CARRITO
-const pintarFooter = () => {
+const printFooter = () => {
   footer.innerHTML = ''
   if (Object.keys(carrito).length === 0){
     footer.innerHTML = `
@@ -174,7 +174,7 @@ const pintarFooter = () => {
   const btnVaciar = document.getElementById('vaciar-carrito')
   btnVaciar.addEventListener('click', () => {
     carrito = {}
-    pintarCarrito()
+    printCarrito()
   })
 }
 
@@ -185,7 +185,7 @@ const btnAccion = e => {
     const producto = carrito[e.target.dataset.id]
     producto.cantidad++
     carrito[e.target.dataset.id] = {...producto}
-    pintarCarrito()
+    printCarrito()
   }
 
   if (e.target.classList.contains('btn-danger')){
@@ -194,7 +194,7 @@ const btnAccion = e => {
     if(producto.cantidad === 0){
       delete carrito[e.target.dataset.id]
     }
-    pintarCarrito()
+    printCarrito()
   }
 
   e.stopPropagation()
